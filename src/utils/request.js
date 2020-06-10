@@ -1,4 +1,4 @@
-import Fly from 'flyio/dist/npm/wx'
+/* import Fly from 'flyio/dist/npm/wx'
 const fly = new Fly()
 const host = 'test'
 // 添加请求拦截器
@@ -81,46 +81,39 @@ fly.config.params = {'token': 'testtoken'} */
   parseJson:true,
   params:{}, //默认公共的url get参数
   withCredentials:false //跨域时是否发送cookie
-} */
+}
+ */
 
-{
-  "retCode": "000000",
-  "retDesc": "SUCCESS",
-  "rspBody": {
-    "couponRuleList": [
-       {
-        "operateId": "3530",
-        "saleType": "7",
-        "saleCode": "100~9999:7",
-        "saleName": "湖北移动话费充值营销",
-        "saleDesc": "限100元使用",
-        "isFixed": "1",
-        "usable": "0",
-        "pCardName": "话费加赠券",
-        "pCardInfo": "限100元使用",
-        "pcardUseRule": "1、仅限湖北移动用户本机登录及使用，不可转赠、不与其他优惠同时享受；2、一笔充值订单仅限使用一张话费加赠券；3、在有效期前使用，逾期作废，赠送金额与充值金额一同到账。",
-        "pCardNo": "4471642619154194",
-        "effectiveTime": "20200510102657",
-        "expireTime": "20200517235959",
-        "couponValue": "7",
-        "marketName": "湖北专属"
-      },{
-        "operateId": "1946",
-        "saleType": "8",
-        "saleCode": "1~100:1",
-        "saleName": "不不不不E币特权：话费9.9折券",
-        "saleDesc": "获得该卡券后，3个月内在移动商城充值可享受充值9.9折优惠！",
-        "isFixed": "1",
-        "usable": "1",
-        "pCardName": "不不不不话费折扣券",
-        "pCardInfo": "充值9.9折",
-        "pcardUseRule": "1.仅限在中国移动APP中使用。\r\n2.仅限获得该券的手机号码登录为本机充值使用，不可转赠，不可为他人充值。\r\n3.本券自发放到账之日起3个月内有效，不能与其他优惠同享，请在有效期前使用，逾期作废。\r\n4.获赠话费与充值金额一同到账。所赠话费不转账、不提现、不退换。\r\n5.若使用卡券但未完成支付，券将锁定无法再次使用，支付有效期内可在“我的订单”查询后继续支付。",
-        "pCardNo": "7103864844867090",
-        "effectiveTime": "20191011143245",
-        "expireTime": "20200131235959",
-        "couponValue": "0.99",
-        "marketName": "本省"
-      }
-    ]
+function createFly () {
+  if (mpvuePlatform === 'wx') {
+    const Fly = require('flyio/dist/npm/wx')
+    return new Fly()
+  }
+  return null
+}
+export function get (url, params = {}) {
+  const fly = createFly()
+  if (fly) {
+    return new Promise((resolve, reject) => {
+      fly.get(url, params).then(response => {
+        resolve(response)
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+    })
+  }
+}
+export function post (url, params = {}) {
+  const fly = createFly()
+  if (fly) {
+    return new Promise((resolve, reject) => {
+      fly.post(url, params).then(response => {
+        resolve(response)
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+    })
   }
 }
